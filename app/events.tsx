@@ -1,6 +1,5 @@
 import moment from "moment";
 import Address from "./address";
-import { Member } from "./members";
 import { generateMonogram, stringToColor } from "@/helpers/utils";
 import JoinButton from "./join";
 
@@ -12,6 +11,12 @@ export default function Events() {
       <Sessions />
     </div>
   );
+}
+
+interface Member {
+  name: string;
+  avatar: string | null;
+  joined: string;
 }
 
 export interface Session {

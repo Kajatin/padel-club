@@ -1,3 +1,4 @@
+import pb from "@/helpers/pocketbase";
 import { generateMonogram, stringToColor } from "@/helpers/utils";
 
 export default function Members() {
@@ -9,60 +10,12 @@ export default function Members() {
   );
 }
 
-export interface Member {
-  name: string;
-  avatar: string | null;
-  joined: string;
-}
-
-function MembersList() {
-  const members: Member[] = [
-    {
-      name: "John Doe",
-      avatar:
-        "https://storage.jewheart.com/content/users/avatars/3746/avatar_3746_500.jpg?1558628223",
-      joined: "2021-05-01T10:00:00Z",
-    },
-    {
-      name: "Jane Doe",
-      avatar: null,
-      joined: "2021-05-01T10:00:00Z",
-    },
-    {
-      name: "Jane Doe",
-      avatar: null,
-      joined: "2021-05-01T10:00:00Z",
-    },
-    {
-      name: "Luís Silva",
-      avatar: null,
-      joined: "2021-05-01T10:00:00Z",
-    },
-    {
-      name: "Luís Silva",
-      avatar: null,
-      joined: "2021-05-01T10:00:00Z",
-    },
-    {
-      name: "Luís Silva",
-      avatar: null,
-      joined: "2021-05-01T10:00:00Z",
-    },
-    {
-      name: "Julius Breitenstein",
-      avatar: null,
-      joined: "2021-05-01T10:00:00Z",
-    },
-    {
-      name: "Julius Breitenstein",
-      avatar: null,
-      joined: "2021-05-01T10:00:00Z",
-    },
-  ];
+async function MembersList() {
+  const members = await pb.collection("users").getList(1, 500);
 
   return (
-    <div className="flex flex-row flex-wrap justify-around gap-6 py-2">
-      {members.map((member) => (
+    <div className="flex flex-row flex-wrap justify-start gap-6 py-2">
+      {members.items.map((member) => (
         <div className="flex flex-col items-center gap-2">
           {member.avatar ? (
             <img
