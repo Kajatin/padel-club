@@ -1,4 +1,5 @@
-import FAQListItem, { FAQItem } from "./faqitem";
+import pb from "@/helpers/pocketbase";
+import FAQListItem from "./faqitem";
 
 export default function FAQ() {
   return (
@@ -9,23 +10,12 @@ export default function FAQ() {
   );
 }
 
-function FAQList() {
-  const faqs: FAQItem[] = [
-    {
-      question: "What is Padel Club?",
-      answer:
-        "Padel Club is a community of padel players in Copenhagen. We organize padel sessions every week. Join us!",
-    },
-    {
-      question: "What is Padel Club?",
-      answer:
-        "Padel Club is a community of padel players in Copenhagen. We organize padel sessions every week. Join us!",
-    },
-  ];
+async function FAQList() {
+  const faqs = await pb.collection("faq").getList(1, 500);
 
   return (
     <div className="flex flex-col py-2 divide-y-2 divide-slate-800">
-      {faqs.map((faq) => (
+      {faqs.items.map((faq) => (
         <FAQListItem faq={faq} />
       ))}
     </div>
