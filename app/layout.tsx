@@ -9,10 +9,19 @@ export const metadata: Metadata = {
   description: "Teton padel pros",
 };
 
+export const revalidate = 0;
+
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
-      <body className={font.className}>{children}</body>
+      <body
+        className={
+          font.className +
+          " flex flex-col justify-center items-center w-screen my-10"
+        }
+      >
+        {children}
+      </body>
     </html>
   );
 }

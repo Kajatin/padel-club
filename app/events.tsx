@@ -77,7 +77,7 @@ function Session({ session }: { session: RecordModel }) {
   );
 }
 
-function Participants({ participants }: { participants: any }) {
+export function Participants({ participants }: { participants: any }) {
   return (
     <div className="flex flex-row gap-2 items-center">
       {participants.map((participant: any) => {

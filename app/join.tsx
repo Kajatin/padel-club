@@ -1,5 +1,7 @@
 "use client";
 
+import { useRouter } from "next/navigation";
+
 import { RecordModel } from "pocketbase";
 
 export default function JoinButton(props: {
@@ -8,6 +10,7 @@ export default function JoinButton(props: {
   sessionInPast: boolean;
 }) {
   const { session, sessionFull, sessionInPast } = props;
+  const router = useRouter();
 
   if (sessionInPast) return null;
 
@@ -16,7 +19,7 @@ export default function JoinButton(props: {
       onClick={() => {
         if (sessionFull) return;
 
-        alert("You joined the session!");
+        router.push(`/sessions/${session.id}`);
       }}
       className={
         "flex flex-row gap-2 items-center border-2 border-slate-800 px-4 py-2 rounded w-fit " +
@@ -25,10 +28,10 @@ export default function JoinButton(props: {
       disabled={sessionFull}
     >
       {sessionFull ? (
-        <p>Session full</p>
+        <div className="font-medium">Session full</div>
       ) : (
         <>
-          <p className="font-medium">Join</p>
+          <div className="font-medium">Join</div>
           <div className="text-sm border border-slate-800 rounded px-1 bg-slate-800">
             {session.price} DKK
           </div>

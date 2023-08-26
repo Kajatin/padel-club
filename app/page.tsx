@@ -5,13 +5,11 @@ import FAQ from "./faq";
 
 export default function Home() {
   return (
-    <div className="flex flex-col justify-center items-center w-screen my-10">
-      <div className="flex flex-col gap-10 max-w-xl">
-        <Hero />
-        <Events />
-        <Members />
-        <FAQ />
-      </div>
+    <div className="flex flex-col gap-10 max-w-xl w-full">
+      <Hero />
+      <Events />
+      <Members />
+      <FAQ />
     </div>
   );
 }
