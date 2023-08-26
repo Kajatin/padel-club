@@ -1,9 +1,9 @@
 "use client";
 
-import { Session } from "./events";
+import { RecordModel } from "pocketbase";
 
 export default function JoinButton(props: {
-  session: Session;
+  session: RecordModel;
   sessionFull: boolean;
   sessionInPast: boolean;
 }) {

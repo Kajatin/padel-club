@@ -2,6 +2,8 @@ import moment from "moment";
 import Address from "./address";
 import { generateMonogram, stringToColor } from "@/helpers/utils";
 import JoinButton from "./join";
+import pb from "@/helpers/pocketbase";
+import { RecordModel } from "pocketbase";
 
 export default function Events() {
   return (
@@ -13,100 +15,23 @@ export default function Events() {
   );
 }
 
-interface Member {
-  name: string;
-  avatar: string | null;
-  joined: string;
-}
-
-export interface Session {
-  title: string;
-  start: string;
-  duration: number;
-  participants: Member[];
-  location: string;
-  price: number;
-}
-
-function Sessions() {
-  const sessions: Session[] = [
-    {
-      title: "Padel session",
-      start: "2023-08-27T07:00:00Z",
-      duration: 60,
-      participants: [
-        {
-          name: "John Doe",
-          avatar:
-            "https://storage.jewheart.com/content/users/avatars/3746/avatar_3746_500.jpg?1558628223",
-          joined: "2021-05-01T10:00:00Z",
-        },
-        {
-          name: "Jane Doe",
-          avatar: null,
-          joined: "2021-05-01T10:00:00Z",
-        },
-        {
-          name: "Jane Doe",
-          avatar: null,
-          joined: "2021-05-01T10:00:00Z",
-        },
-      ],
-      location: "Match Padel, Kløvermarksvej 70, 2300 København",
-      price: 89,
-    },
-    {
-      title: "Padel session",
-      start: "2021-05-01T10:00:00Z",
-      duration: 60,
-      participants: [
-        {
-          name: "Luís Silva",
-          avatar: null,
-          joined: "2021-05-01T10:00:00Z",
-        },
-        {
-          name: "Julius Breitenstein",
-          avatar: null,
-          joined: "2021-05-01T10:00:00Z",
-        },
-      ],
-      location: "Padel Club",
-      price: 10,
-    },
-    {
-      title: "Padel session",
-      start: "2021-05-01T10:00:00Z",
-      duration: 60,
-      participants: [
-        {
-          name: "John Doe",
-          avatar:
-            "https://storage.jewheart.com/content/users/avatars/3746/avatar_3746_500.jpg?1558628223",
-          joined: "2021-05-01T10:00:00Z",
-        },
-        {
-          name: "Jane Doe",
-          avatar:
-            "https://storage.jewheart.com/content/users/avatars/3746/avatar_3746_500.jpg?1558628223",
-          joined: "2021-05-01T10:00:00Z",
-        },
-      ],
-      location: "Padel Club",
-      price: 10,
-    },
-  ];
+async function Sessions() {
+  const sessions = await pb.collection("sessions").getFullList(10, {
+    orderBy: "start",
+    order: "desc",
+    expand: "participants",
+  });
 
   return (
     <div className="flex flex-col divide-y-2 divide-slate-800">
       {sessions.map((session) => (
-        <Session session={session} />
+        <Session key={session.id} session={session} />
       ))}
     </div>
   );
 }
 
-function Session({ session }: { session: Session }) {
+function Session({ session }: { session: RecordModel }) {
   const sessionInPast = moment(session.start).isBefore(moment());
   const sessionFull = session.participants.length >= 4;
 
@@ -131,7 +56,7 @@ function Session({ session }: { session: Session }) {
           )}
         </div>
 
-        <Participants participants={session.participants} />
+        <Participants participants={session.expand?.participants || []} />
 
         <div className="flex flex-row gap-2 items-center">
           <p>{moment(session.start).format("lll")}</p>
@@ -152,27 +77,31 @@ function Session({ session }: { session: Session }) {
   );
 }
 
-function Participants({ participants }: { participants: Member[] }) {
+function Participants({ participants }: { participants: any }) {
   return (
     <div className="flex flex-row gap-2 items-center">
-      {participants.map((participant) => (
-        <>
-          {participant.avatar ? (
-            <img
-              className="h-8 w-8 rounded-full"
-              src={participant.avatar}
-              alt={participant.name}
-            />
-          ) : (
-            <div
-              className="flex w-8 h-8 rounded-full font-medium items-center justify-center"
-              style={{ backgroundColor: stringToColor(participant.name) }}
-            >
-              {generateMonogram(participant.name)}
-            </div>
-          )}
-        </>
-      ))}
+      {participants.map((participant: any) => {
+        const avatar = pb.files.getUrl(participant, participant.avatar);
+
+        return (
+          <>
+            {avatar ? (
+              <img
+                className="h-8 w-8 rounded-full"
+                src={avatar}
+                alt={participant.name}
+              />
+            ) : (
+              <div
+                className="flex w-8 h-8 rounded-full font-medium items-center justify-center"
+                style={{ backgroundColor: stringToColor(participant.name) }}
+              >
+                {generateMonogram(participant.name)}
+              </div>
+            )}
+          </>
+        );
+      })}
     </div>
   );
 }

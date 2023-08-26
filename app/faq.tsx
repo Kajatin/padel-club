@@ -16,7 +16,7 @@ async function FAQList() {
   return (
     <div className="flex flex-col py-2 divide-y-2 divide-slate-800">
       {faqs.items.map((faq) => (
-        <FAQListItem faq={faq} />
+        <FAQListItem key={faq.id} faq={faq} />
       ))}
     </div>
   );
