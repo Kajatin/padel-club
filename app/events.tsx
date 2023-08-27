@@ -11,6 +11,7 @@ export default function Events() {
     <div className="flex flex-col gap-2">
       <h1 className="text-3xl text-slate-400 font-medium">Sessions</h1>
       <p>Join us on our next session!</p>
+      {/* @ts-expect-error Server Component */}
       <Sessions />
     </div>
   );

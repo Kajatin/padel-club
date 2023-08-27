@@ -5,6 +5,7 @@ export default function FAQ() {
   return (
     <div className="flex flex-col gap-2">
       <h1 className="text-3xl text-slate-400 font-medium">FAQ</h1>
+      {/* @ts-expect-error Server Component */}
       <FAQList />
     </div>
   );

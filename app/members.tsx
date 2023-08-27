@@ -5,6 +5,7 @@ export default function Members() {
   return (
     <div className="flex flex-col gap-2">
       <h1 className="text-3xl text-slate-400 font-medium">Members</h1>
+      {/* @ts-expect-error Server Component */}
       <MembersList />
     </div>
   );
