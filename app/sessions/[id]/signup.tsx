@@ -7,7 +7,7 @@ export default function Signup() {
 
   return (
     <div className="flex flex-row gap-2">
-      <div>Don't have an account?</div>
+      <div>Don&apos;t have an account?</div>
       <button
         onClick={() => {
           router.push("/signup");

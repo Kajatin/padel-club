@@ -19,7 +19,7 @@ async function MembersList() {
         const avatar = pb.files.getUrl(member, member.avatar);
 
         return (
-          <div className="flex flex-col items-center gap-2">
+          <div key={member.id} className="flex flex-col items-center gap-2">
             {avatar ? (
               <img
                 className="h-24 w-24 rounded-full"

@@ -10,7 +10,7 @@ export async function signupHandler(data: FormData) {
   const password = data.get("password");
   const formAvatar = data.get("avatar");
 
-  const userObj = {
+  const userObj: any = {
     name,
     email,
     password,

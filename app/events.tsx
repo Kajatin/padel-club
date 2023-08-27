@@ -1,9 +1,10 @@
 import moment from "moment";
-import Address from "./address";
-import { generateMonogram, stringToColor } from "@/helpers/utils";
-import JoinButton from "./join";
-import pb from "@/helpers/pocketbase";
 import { RecordModel } from "pocketbase";
+
+import JoinButton from "./join";
+import Address from "./address";
+import pb from "@/helpers/pocketbase";
+import { generateMonogram, stringToColor } from "@/helpers/utils";
 
 export default function Events() {
   return (
