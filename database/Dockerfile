@@ -15,7 +15,7 @@ RUN unzip /app/pocketbase/pocketbase.zip -d /app/pocketbase && \
     chmod +x /app/pocketbase/pocketbase && \
     rm /app/pocketbase/pocketbase.zip
 
-COPY ./pb_migrations /app/data/pb_migrations
+COPY ./database/pb_migrations /app/data/pb_migrations
 
 EXPOSE 8090
 
