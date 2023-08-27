@@ -50,8 +50,15 @@ function Session({ session }: { session: RecordModel }) {
           {sessionInPast ? (
             <p className="bg-slate-800 text-sm px-1 py-0.5 rounded">expired</p>
           ) : (
-            <p className="bg-yellow-400 text-yellow-900 text-sm px-1 py-0.5 rounded">
-              upcoming
+            <p
+              className={
+                "text-sm font-medium px-1 py-0.5 rounded " +
+                (session.booked
+                  ? "bg-yellow-400 text-yellow-900"
+                  : "text-yellow-400 border border-yellow-400")
+              }
+            >
+              {session.booked ? "booked" : "scheduled"}
             </p>
           )}
         </div>
@@ -59,7 +66,7 @@ function Session({ session }: { session: RecordModel }) {
         <Participants participants={session.expand?.participants || []} />
 
         <div className="flex flex-row gap-2 items-center">
-          <p>{moment(session.start).format("lll")}</p>
+          <p>{moment(session.start).format("LLLL")}</p>
           <p className="bg-slate-800 px-1 py-0.5 rounded">
             {session.duration} minutes
           </p>

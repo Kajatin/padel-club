@@ -8,6 +8,8 @@ import MobilePay from "./mobilepay";
 import Join from "./join";
 import Signup from "./signup";
 
+export const revalidate = 0;
+
 export default async function SessionJoin({
   params,
 }: {
@@ -42,8 +44,15 @@ export default async function SessionJoin({
                 expired
               </p>
             ) : (
-              <p className="bg-yellow-400 text-yellow-900 text-sm px-1 py-0.5 rounded">
-                upcoming
+              <p
+                className={
+                  "text-sm px-1 py-0.5 rounded " +
+                  (session.booked
+                    ? "bg-yellow-400 text-yellow-900"
+                    : "text-yellow-400 border border-yellow-400")
+                }
+              >
+                {session.booked ? "booked" : "scheduled"}
               </p>
             )}
           </div>
@@ -51,7 +60,7 @@ export default async function SessionJoin({
           <Participants participants={session.expand?.participants || []} />
 
           <div className="flex flex-row gap-2 items-center">
-            <p>{moment(session.start).format("lll")}</p>
+            <p>{moment(session.start).format("LLLL")}</p>
             <p className="bg-slate-800 px-1 py-0.5 rounded">
               {session.duration} minutes
             </p>
@@ -69,9 +78,9 @@ export default async function SessionJoin({
             <div className="flex flex-row gap-2 justify-between items-center">
               <div>
                 Please send{" "}
-                <div className="inline text-sm border border-slate-800 rounded px-1 bg-slate-800">
+                <div className="inline border border-slate-300 text-slate-300 rounded px-1">
                   {session.price} DKK
-                </div>
+                </div>{" "}
                 to <span className="text-slate-300">20 73 00 65</span> to join
                 the session. This is to cover the court and equipment rental.
               </div>
