@@ -2,6 +2,10 @@
 
 Padel Club is Copenhagen based community for padel players. Join us for our next game, and have fun!
 
+<p align="center">
+  <img width="800" src="https://github.com/Kajatin/padel-club/assets/33018844/ae11e9ac-1f9b-4918-8de8-caa73f864448">
+</p>
+
 ## Stack
 
 ### PocketBase
@@ -21,4 +25,6 @@ The project is containerized using Docker. You can build and run the project usi
 
 ## Screenshots
 
-Coming soon...
+<p align="center">
+  <img width="800" src="https://github.com/Kajatin/padel-club/assets/33018844/b192c25d-e22b-4189-9da5-5d09b531b893">
+</p>
