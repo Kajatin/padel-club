@@ -46,7 +46,7 @@ function Session({ session }: { session: RecordModel }) {
   return (
     <div
       className={
-        "flex flex-row justify-between items-center gap-4 py-2 " +
+        "flex flex-col sm:flex-row sm:justify-between sm:items-center gap-2 sm:gap-4 py-4 sm:py-2 " +
         (sessionInPast ? "opacity-70" : "")
       }
     >
@@ -73,7 +73,7 @@ function Session({ session }: { session: RecordModel }) {
 
         <Participants participants={session.expand?.participants || []} />
 
-        <div className="flex flex-row gap-2 items-center">
+        <div className="flex flex-col sm:flex-row sm:gap-2 items-start sm:items-center">
           <p>{moment(session.start).format("LLLL")}</p>
           <p className="bg-slate-800 px-1 py-0.5 rounded">
             {session.duration} minutes

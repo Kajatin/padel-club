@@ -22,7 +22,7 @@ export default function JoinButton(props: {
         router.push(`/sessions/${session.id}`);
       }}
       className={
-        "flex flex-row gap-2 items-center border-2 border-slate-800 px-4 py-2 rounded w-fit " +
+        "flex flex-row gap-2 items-center border-2 border-slate-800 px-4 py-2 rounded w-full sm:w-fit " +
         (sessionFull ? "" : "hover:bg-slate-800")
       }
       disabled={sessionFull}

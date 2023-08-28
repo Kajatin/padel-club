@@ -3,7 +3,6 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 
-import pb from "@/helpers/pocketbase";
 import { RecordModel } from "pocketbase";
 
 import Login from "./login";

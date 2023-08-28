@@ -58,7 +58,7 @@ export default async function SessionJoin({
 
           <Participants participants={session.expand?.participants || []} />
 
-          <div className="flex flex-row gap-2 items-center">
+          <div className="flex flex-col sm:flex-row sm:gap-2 items-start sm:items-center">
             <p>{moment(session.start).format("LLLL")}</p>
             <p className="bg-slate-800 px-1 py-0.5 rounded">
               {session.duration} minutes
