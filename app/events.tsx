@@ -8,6 +8,10 @@ import Address from "./address";
 import pb from "@/helpers/pocketbase";
 import { generateMonogram, stringToColor } from "@/helpers/utils";
 
+export const revalidate = 0;
+export const dynamic = "force-dynamic";
+export const fetchCache = "default-no-store";
+
 export default function Events() {
   return (
     <div className="flex flex-col gap-2">

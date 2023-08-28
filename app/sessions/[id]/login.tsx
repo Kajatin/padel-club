@@ -2,6 +2,10 @@
 
 import { useState } from "react";
 
+export const revalidate = 0;
+export const dynamic = "force-dynamic";
+export const fetchCache = "default-no-store";
+
 export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");

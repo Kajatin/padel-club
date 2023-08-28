@@ -10,6 +10,8 @@ export const metadata: Metadata = {
 };
 
 export const revalidate = 0;
+export const dynamic = "force-dynamic";
+export const fetchCache = "default-no-store";
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (

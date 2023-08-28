@@ -5,8 +5,6 @@ import { useRouter } from "next/navigation";
 
 import { signupHandler } from "./handler";
 
-export const revalidate = 0;
-
 export default function Signup() {
   const formRef = useRef(null);
   const router = useRouter();

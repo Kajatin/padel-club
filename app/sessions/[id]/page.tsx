@@ -9,6 +9,8 @@ import Join from "./join";
 import Signup from "./signup";
 
 export const revalidate = 0;
+export const dynamic = "force-dynamic";
+export const fetchCache = "default-no-store";
 
 export default async function SessionJoin({
   params,
