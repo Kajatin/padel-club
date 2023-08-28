@@ -1,3 +1,5 @@
+import Image from "next/image";
+
 import moment from "moment";
 import { RecordModel } from "pocketbase";
 
@@ -95,7 +97,9 @@ export function Participants({ participants }: { participants: any }) {
         return (
           <>
             {avatar ? (
-              <img
+              <Image
+                width={32}
+                height={32}
                 className="h-8 w-8 rounded-full"
                 src={avatar}
                 alt={participant.name}

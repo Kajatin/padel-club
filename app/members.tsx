@@ -1,3 +1,5 @@
+import Image from "next/image";
+
 import pb from "@/helpers/pocketbase";
 import { generateMonogram, stringToColor } from "@/helpers/utils";
 
@@ -22,7 +24,9 @@ async function MembersList() {
         return (
           <div key={member.id} className="flex flex-col items-center gap-2">
             {avatar ? (
-              <img
+              <Image
+                width={96}
+                height={96}
                 className="h-24 w-24 rounded-full"
                 src={avatar}
                 alt={member.name}
