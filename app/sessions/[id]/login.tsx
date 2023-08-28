@@ -6,7 +6,9 @@ export const revalidate = 0;
 export const dynamic = "force-dynamic";
 export const fetchCache = "default-no-store";
 
-export default function Login() {
+export default function Login(props: { setUserId: (userId: string) => void }) {
+  const { setUserId } = props;
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
@@ -40,7 +42,7 @@ export default function Login() {
           }).then(async (res) => {
             if (res.ok) {
               const data = await res.json();
-              window.location.reload();
+              setUserId(data.record.id);
             }
           });
         }}

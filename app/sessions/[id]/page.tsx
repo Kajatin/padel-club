@@ -3,10 +3,7 @@ import moment from "moment";
 import pb from "@/helpers/pocketbase";
 import Address from "@/app/address";
 import { Participants } from "@/app/events";
-import Login from "./login";
-import MobilePay from "./mobilepay";
-import Join from "./join";
-import Signup from "./signup";
+import Interaction from "./interaction";
 
 export const revalidate = 0;
 export const dynamic = "force-dynamic";
@@ -72,37 +69,7 @@ export default async function SessionJoin({
         </div>
       </div>
 
-      {pb.authStore.isValid ? (
-        <div className="flex flex-col gap-2 border-t-2 border-slate-800 pt-3">
-          {sessionFull ? (
-            <div>This session is already full. Please join on another one.</div>
-          ) : (
-            <div className="flex flex-row gap-2 justify-between items-center">
-              <div>
-                Please send{" "}
-                <div className="inline border border-slate-300 text-slate-300 rounded px-1">
-                  {session.price} DKK
-                </div>{" "}
-                to <span className="text-slate-300">20 73 00 65</span> to join
-                the session. This is to cover the court and equipment rental.
-              </div>
-              <MobilePay />
-            </div>
-          )}
-
-          <Join
-            user={pb.authStore.model?.id || null}
-            sessionId={id}
-            sessionFull={sessionFull}
-          />
-        </div>
-      ) : (
-        <div className="flex flex-col gap-2 border-t-2 border-slate-800 pt-3">
-          <p>You need to log in before you can join the session.</p>
-          <Login />
-          <Signup />
-        </div>
-      )}
+      <Interaction id={id} session={session} sessionFull={sessionFull} />
     </div>
   );
 }
