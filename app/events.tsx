@@ -1,12 +1,13 @@
 import Image from "next/image";
 
 import moment from "moment";
-import { RecordModel } from "pocketbase";
 
 import JoinButton from "./join";
 import Address from "./address";
-import pb from "@/helpers/pocketbase";
 import { generateMonogram, stringToColor } from "@/helpers/utils";
+
+import getDb from "@/helpers/getDb";
+const { db } = getDb();
 
 export const revalidate = 0;
 export const dynamic = "force-dynamic";
@@ -24,10 +25,23 @@ export default function Events() {
 }
 
 async function Sessions() {
-  const sessions = await pb.collection("sessions").getFullList(10, {
-    orderBy: "start",
-    order: "desc",
-    expand: "participants",
+  const sessions = await db.task(async (t) => {
+    const sessions = await t.any("SELECT * FROM sessions");
+
+    const sessionsWithParticipants = await Promise.all(
+      sessions.map(async (session: any) => {
+        const participants = await t.any(
+          `SELECT u.name, u.avatar FROM sessions_users su
+          INNER JOIN users u ON su.user = u.id
+          WHERE su.session = $1`,
+          [session.id]
+        );
+
+        return { ...session, participants };
+      })
+    );
+
+    return sessionsWithParticipants;
   });
 
   return (
@@ -39,7 +53,7 @@ async function Sessions() {
   );
 }
 
-function Session({ session }: { session: RecordModel }) {
+function Session({ session }: { session: any }) {
   const sessionInPast = moment(session.start).isBefore(moment());
   const sessionFull = session.participants.length >= 4;
 
@@ -71,7 +85,7 @@ function Session({ session }: { session: RecordModel }) {
           )}
         </div>
 
-        <Participants participants={session.expand?.participants || []} />
+        <Participants participants={session.participants} />
 
         <div className="flex flex-col sm:flex-row sm:gap-2 items-start sm:items-center">
           <p>{moment(session.start).format("LLLL")}</p>
@@ -96,16 +110,14 @@ export function Participants({ participants }: { participants: any }) {
   return (
     <div className="flex flex-row gap-2 items-center">
       {participants.map((participant: any) => {
-        const avatar = pb.files.getUrl(participant, participant.avatar);
-
         return (
           <>
-            {avatar ? (
+            {participant.avatar ? (
               <Image
                 width={32}
                 height={32}
                 className="h-8 w-8 rounded-full"
-                src={avatar}
+                src={participant.avatar}
                 alt={participant.name}
               />
             ) : (

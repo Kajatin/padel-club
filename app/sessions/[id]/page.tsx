@@ -1,9 +1,11 @@
 import moment from "moment";
 
-import pb from "@/helpers/pocketbase";
 import Address from "@/app/address";
 import { Participants } from "@/app/events";
 import Interaction from "./interaction";
+
+import getDb from "@/helpers/getDb";
+const { db } = getDb();
 
 export const revalidate = 0;
 export const dynamic = "force-dynamic";
@@ -16,8 +18,17 @@ export default async function SessionJoin({
 }) {
   const { id } = params;
 
-  const session = await pb.collection("sessions").getOne(id, {
-    expand: "participants",
+  const session = await db.task(async (t) => {
+    const session = await t.one("SELECT * from sessions WHERE id = $1", id);
+
+    const participants = await t.any(
+      `SELECT u.name, u.avatar FROM sessions_users su
+      INNER JOIN users u ON su.user = u.id
+      WHERE su.session = $1`,
+      [session.id]
+    );
+
+    return { ...session, participants };
   });
 
   const sessionInPast = moment(session.start).isBefore(moment());
@@ -56,7 +67,7 @@ export default async function SessionJoin({
             )}
           </div>
 
-          <Participants participants={session.expand?.participants || []} />
+          <Participants participants={session.participants} />
 
           <div className="flex flex-col sm:flex-row sm:gap-2 items-start sm:items-center">
             <p>{moment(session.start).format("LLLL")}</p>

@@ -2,10 +2,8 @@
 
 import { useRouter } from "next/navigation";
 
-import { RecordModel } from "pocketbase";
-
 export default function JoinButton(props: {
-  session: RecordModel;
+  session: any;
   sessionFull: boolean;
   sessionInPast: boolean;
 }) {

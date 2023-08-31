@@ -1,14 +1,13 @@
 "use client";
 
 import { useState } from "react";
-import { RecordModel } from "pocketbase";
 
 export interface FAQItem {
   question: string;
   answer: string;
 }
 
-export default function FAQListItem({ faq }: { faq: RecordModel }) {
+export default function FAQListItem({ faq }: { faq: any }) {
   const [open, setOpen] = useState(false);
 
   return (
