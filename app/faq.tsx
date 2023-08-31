@@ -1,4 +1,6 @@
-import pb from "@/helpers/pocketbase";
+import getDb from "@/helpers/getDb";
+const { db } = getDb();
+
 import FAQListItem from "./faqitem";
 
 export default function FAQ() {
@@ -12,11 +14,11 @@ export default function FAQ() {
 }
 
 async function FAQList() {
-  const faqs = await pb.collection("faq").getList(1, 500);
+  const faqs = await db.any("SELECT * FROM faq");
 
   return (
     <div className="flex flex-col py-2 divide-y-2 divide-slate-800">
-      {faqs.items.map((faq) => (
+      {faqs.map((faq) => (
         <FAQListItem key={faq.id} faq={faq} />
       ))}
     </div>
