@@ -18,7 +18,6 @@ export default function Events() {
   return (
     <div className="flex flex-col gap-2">
       <h1 className="text-3xl text-slate-400 font-medium">Sessions</h1>
-      <p>Join us on our next session!</p>
       {/* @ts-expect-error Server Component */}
       <Sessions />
     </div>
@@ -27,7 +26,7 @@ export default function Events() {
 
 async function Sessions() {
   const sessions = await db.task(async (t) => {
-    const sessions = await t.any("SELECT * FROM sessions");
+    const sessions = await t.any("SELECT * FROM sessions ORDER BY start DESC");
 
     const sessionsWithParticipants = await Promise.all(
       sessions.map(async (session: any) => {
