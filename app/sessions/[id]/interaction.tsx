@@ -8,12 +8,8 @@ import { getSession } from "next-auth/react";
 
 import MobilePay from "./mobilepay";
 
-export default function Interaction(props: {
-  id: string;
-  session: any;
-  sessionFull: boolean;
-}) {
-  const { id, session, sessionFull } = props;
+export default function Interaction(props: { id: string; session: any }) {
+  const { id, session } = props;
 
   const router = useRouter();
 
@@ -27,49 +23,69 @@ export default function Interaction(props: {
     fetchSession();
   }, []);
 
-  if (!userSession) return null;
+  const member = session.participants?.find(
+    (participant: any) => participant.sub === userSession?.user.sub
+  );
+  const paid = member?.paid;
 
-  return (
-    <>
-      <div className="flex flex-col gap-2 border-t-2 border-slate-800 pt-3">
-        {sessionFull ? (
-          <div>This session is already full. Please join on another one.</div>
-        ) : (
+  if (!userSession || !member) return null;
+
+  if (paid) {
+    return (
+      <>
+        <div className="flex flex-col gap-2 border-t-2 border-slate-800 mt-2">
           <div className="flex flex-row gap-2 justify-between items-center">
             <div>
-              Please send{" "}
-              <div className="inline border border-slate-300 text-slate-300 rounded px-1">
-                {session.price} DKK
-              </div>{" "}
-              to <span className="text-slate-300">20 73 00 65</span> to join the
-              session. This is to cover the court and equipment rental.
+              <b>Thank you!</b> You have already paid for this session. See you
+              on the next one.
             </div>
             <MobilePay />
           </div>
-        )}
+
+          <button
+            onClick={() => {
+              router.replace(`/`);
+            }}
+            className="flex flex-row gap-2 items-center border-2 border-slate-800 px-4 py-2 rounded w-full font-medium justify-center hover:bg-slate-800"
+          >
+            <div className="font-medium">Take me back</div>
+          </button>
+        </div>
+      </>
+    );
+  }
+
+  return (
+    <>
+      <div className="flex flex-col gap-2 border-t-2 border-slate-800 mt-2">
+        <div className="flex flex-row gap-2 justify-between items-center">
+          <div>
+            Please send{" "}
+            <div className="inline border border-slate-300 text-slate-300 rounded px-1">
+              {session.price / session.participants.length} DKK
+            </div>{" "}
+            to <span className="text-slate-300">20 73 00 65</span> to cover the
+            court and equipment rental.
+          </div>
+          <MobilePay />
+        </div>
 
         <button
           onClick={() => {
-            if (sessionFull || userSession === null) return;
+            if (userSession === null) return;
 
-            fetch("/api/join", {
+            fetch("/api/pay", {
               method: "POST",
               body: JSON.stringify({ sub: userSession.user.sub, id }),
             }).then(async (res) => {
               if (res.ok) {
-                const data = await res.json();
-
                 router.replace(`/`);
               }
             });
           }}
-          className={
-            "flex flex-row gap-2 items-center border-2 border-slate-800 px-4 py-2 rounded w-full font-medium justify-center " +
-            (sessionFull ? "" : "hover:bg-slate-800")
-          }
-          disabled={sessionFull}
+          className="flex flex-row gap-2 items-center border-2 border-slate-800 px-4 py-2 rounded w-full font-medium justify-center hover:bg-slate-800"
         >
-          {sessionFull ? "Session full" : "Join"}
+          <div className="font-medium">I have paid, take me back</div>
         </button>
       </div>
     </>

@@ -22,9 +22,10 @@ export default async function SessionJoin({
     const session = await t.one("SELECT * from sessions WHERE id = $1", id);
 
     const participants = await t.any(
-      `SELECT u.name, u.avatar FROM sessions_users su
+      `SELECT u.name, u.avatar, u.sub, su.paid FROM sessions_users su
       INNER JOIN users u ON su.user = u.id
-      WHERE su.session = $1`,
+      WHERE su.session = $1
+      ORDER BY su.created ASC`,
       [session.id]
     );
 
@@ -32,55 +33,47 @@ export default async function SessionJoin({
   });
 
   const sessionInPast = moment(session.start).isBefore(moment());
-  const sessionFull = session.participants.length >= 4;
 
   return (
     <div className="flex flex-col gap-2 max-w-md w-full">
-      <h1 className="text-3xl text-slate-400 font-medium">Join session</h1>
+      <h1 className="text-3xl text-slate-400 font-medium">Pay for session</h1>
 
-      <div
-        className={
-          "flex flex-row justify-between items-center gap-4 py-2 " +
-          (sessionInPast ? "opacity-70" : "")
-        }
-      >
-        <div className="flex flex-col gap-1">
-          <div className="flex flex-row gap-2 items-center">
-            <h2 className="text-xl text-slate-400 font-medium">
-              {session.title}
-            </h2>
-            {sessionInPast ? (
-              <p className="bg-slate-800 text-sm px-1 py-0.5 rounded">
-                expired
-              </p>
-            ) : (
-              <p
-                className={
-                  "text-sm px-1 py-0.5 rounded " +
-                  (session.booked
-                    ? "bg-yellow-400 text-yellow-900"
-                    : "text-yellow-400 border border-yellow-400")
-                }
-              >
-                {session.booked ? "booked" : "scheduled"}
-              </p>
-            )}
-          </div>
+      <div className="flex flex-col gap-1">
+        <h2 className="text-xl text-slate-400 font-medium">{session.title}</h2>
 
-          <Participants participants={session.participants} />
+        <Participants participants={session.participants} />
 
-          <div className="flex flex-col sm:flex-row sm:gap-2 items-start sm:items-center">
-            <p>{moment(session.start).format("LLLL")}</p>
-            <p className="bg-slate-800 px-1 py-0.5 rounded">
-              {session.duration} minutes
+        <div className="flex flex-row gap-2 mt-2">
+          {sessionInPast ? (
+            <p className="bg-slate-400 text-slate-900 text-sm px-1 py-0.5 rounded">
+              expired
             </p>
+          ) : (
+            <p
+              className={
+                "text-sm font-medium px-1 py-0.5 rounded " +
+                (session.booked
+                  ? "bg-yellow-400 text-yellow-900"
+                  : "text-yellow-400 border border-yellow-400")
+              }
+            >
+              {session.booked ? "booked" : "scheduled"}
+            </p>
+          )}
+          <div className="inline border border-slate-400 text-slate-400 rounded text-sm px-1 py-0.5">
+            {session.price} DKK
           </div>
-
-          <Address address={session.location} />
+          <p className="inline border border-slate-400 text-slate-400 rounded text-sm px-1 py-0.5">
+            {session.duration} min
+          </p>
         </div>
+
+        <div>{moment(session.start).format("LLLL")}</div>
+
+        <Address address={session.location} />
       </div>
 
-      <Interaction id={id} session={session} sessionFull={sessionFull} />
+      <Interaction id={id} session={session} />
     </div>
   );
 }

@@ -14,7 +14,7 @@ export default function FAQ() {
 }
 
 async function FAQList() {
-  const faqs = await db.any("SELECT * FROM faq");
+  const faqs = await db.any("SELECT * FROM faq ORDER BY id ASC");
 
   return (
     <div className="flex flex-col py-2 divide-y-2 divide-slate-800">

@@ -2,6 +2,7 @@ import Image from "next/image";
 
 import moment from "moment";
 
+import PayButton from "./pay";
 import JoinButton from "./join";
 import Address from "./address";
 import { generateMonogram, stringToColor } from "@/helpers/utils";
@@ -31,9 +32,10 @@ async function Sessions() {
     const sessionsWithParticipants = await Promise.all(
       sessions.map(async (session: any) => {
         const participants = await t.any(
-          `SELECT u.name, u.avatar FROM sessions_users su
+          `SELECT u.name, u.avatar, u.sub, su.paid FROM sessions_users su
           INNER JOIN users u ON su.user = u.id
-          WHERE su.session = $1`,
+          WHERE su.session = $1
+          ORDER BY su.created ASC`,
           [session.id]
         );
 
@@ -55,22 +57,21 @@ async function Sessions() {
 
 function Session({ session }: { session: any }) {
   const sessionInPast = moment(session.start).isBefore(moment());
-  const sessionFull = session.participants.length >= 4;
 
   return (
-    <div
-      className={
-        "flex flex-col sm:flex-row sm:justify-between sm:items-center gap-2 sm:gap-4 py-4 sm:py-2 " +
-        (sessionInPast ? "opacity-70" : "")
-      }
-    >
-      <div className="flex flex-col gap-1">
-        <div className="flex flex-row gap-2 items-center">
-          <h2 className="text-xl text-slate-400 font-medium">
-            {session.title}
-          </h2>
+    <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-2 sm:gap-4 py-4 sm:py-2">
+      <div
+        className={"flex flex-col gap-1 " + (sessionInPast ? "opacity-70" : "")}
+      >
+        <h2 className="text-xl text-slate-400 font-medium">{session.title}</h2>
+
+        <Participants participants={session.participants} />
+
+        <div className="flex flex-row gap-2">
           {sessionInPast ? (
-            <p className="bg-slate-800 text-sm px-1 py-0.5 rounded">expired</p>
+            <p className="bg-slate-400 text-slate-900 text-sm px-1 py-0.5 rounded">
+              expired
+            </p>
           ) : (
             <p
               className={
@@ -83,32 +84,41 @@ function Session({ session }: { session: any }) {
               {session.booked ? "booked" : "scheduled"}
             </p>
           )}
-        </div>
-
-        <Participants participants={session.participants} />
-
-        <div className="flex flex-col sm:flex-row sm:gap-2 items-start sm:items-center">
-          <p>{moment(session.start).format("LLLL")}</p>
-          <p className="bg-slate-800 px-1 py-0.5 rounded">
-            {session.duration} minutes
+          <div className="inline border border-slate-400 text-slate-400 rounded text-sm px-1 py-0.5">
+            {session.price} DKK
+          </div>
+          <p className="inline border border-slate-400 text-slate-400 rounded text-sm px-1 py-0.5">
+            {session.duration} min
           </p>
         </div>
 
-        <Address address={session.location} />
+        <div>{moment(session.start).format("LLLL")}</div>
+
+        {!sessionInPast && <Address address={session.location} />}
       </div>
 
-      <JoinButton
-        session={session}
-        sessionFull={sessionFull}
-        sessionInPast={sessionInPast}
-      />
+      {!sessionInPast && (
+        <JoinButton session={session.id} participants={session.participants} />
+      )}
+      {sessionInPast && (
+        <PayButton
+          session={session.id}
+          participants={session.participants}
+          price={session.price / session.participants.length}
+        />
+      )}
     </div>
   );
 }
 
 export function Participants({ participants }: { participants: any }) {
   return (
-    <div className="flex flex-row gap-2 items-center">
+    <div
+      className={
+        "flex flex-row gap-2 items-center " +
+        (participants.length > 0 && "mb-2")
+      }
+    >
       {participants.map((participant: any) => {
         return (
           <>

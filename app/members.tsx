@@ -20,7 +20,9 @@ export default function Members() {
 }
 
 async function MembersList() {
-  const members = await db.any("SELECT id, name, avatar FROM users");
+  const members = await db.any(
+    "SELECT id, name, avatar FROM users ORDER BY created"
+  );
 
   return (
     <div className="flex flex-row flex-wrap justify-start gap-6 py-2">
