@@ -1,6 +1,8 @@
 import Image from "next/image";
 
-import pb from "@/helpers/pocketbase";
+import getDb from "@/helpers/getDb";
+const { db } = getDb();
+
 import { generateMonogram, stringToColor } from "@/helpers/utils";
 
 export const revalidate = 0;
@@ -18,21 +20,19 @@ export default function Members() {
 }
 
 async function MembersList() {
-  const members = await pb.collection("users").getFullList(500);
+  const members = await db.any("SELECT id, name, avatar FROM users");
 
   return (
     <div className="flex flex-row flex-wrap justify-start gap-6 py-2">
       {members.map((member) => {
-        const avatar = pb.files.getUrl(member, member.avatar);
-
         return (
           <div key={member.id} className="flex flex-col items-center gap-2">
-            {avatar ? (
+            {member.avatar ? (
               <Image
                 width={96}
                 height={96}
                 className="h-24 w-24 rounded-full"
-                src={avatar}
+                src={member.avatar}
                 alt={member.name}
               />
             ) : (
