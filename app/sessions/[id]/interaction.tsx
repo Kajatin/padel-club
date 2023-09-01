@@ -41,15 +41,6 @@ export default function Interaction(props: { id: string; session: any }) {
             </div>
             <MobilePay />
           </div>
-
-          <button
-            onClick={() => {
-              router.replace(`/`);
-            }}
-            className="flex flex-row gap-2 items-center border-2 border-slate-800 px-4 py-2 rounded w-full font-medium justify-center hover:bg-slate-800"
-          >
-            <div className="font-medium">Take me back</div>
-          </button>
         </div>
       </>
     );
@@ -79,13 +70,13 @@ export default function Interaction(props: { id: string; session: any }) {
               body: JSON.stringify({ sub: userSession.user.sub, id }),
             }).then(async (res) => {
               if (res.ok) {
-                router.replace(`/`);
+                router.refresh();
               }
             });
           }}
-          className="flex flex-row gap-2 items-center border-2 border-slate-800 px-4 py-2 rounded w-full font-medium justify-center hover:bg-slate-800"
+          className="flex flex-row gap-2 items-center border-2 border-slate-800 px-4 py-2 rounded w-full font-medium justify-center hover:bg-slate-800 transition-all"
         >
-          <div className="font-medium">I have paid, take me back</div>
+          <div className="font-medium">Confirm payment</div>
         </button>
       </div>
     </>

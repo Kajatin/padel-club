@@ -1,8 +1,9 @@
 import moment from "moment";
 
 import Address from "@/app/address";
-import { Participants } from "@/app/events";
 import Interaction from "./interaction";
+import Navigation from "@/app/navigation";
+import { Participants } from "@/app/events";
 
 import getDb from "@/helpers/getDb";
 const { db } = getDb();
@@ -36,6 +37,8 @@ export default async function SessionJoin({
 
   return (
     <div className="flex flex-col gap-2 max-w-md w-full">
+      <Navigation />
+
       <h1 className="text-3xl text-slate-400 font-medium">Pay for session</h1>
 
       <div className="flex flex-col gap-1">

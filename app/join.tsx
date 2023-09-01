@@ -43,7 +43,7 @@ export default function JoinButton(props: {
           }
         });
       }}
-      className="flex flex-row gap-2 items-center border-2 border-slate-800 px-4 py-2 rounded w-full sm:w-fit hover:bg-slate-800"
+      className="flex flex-row gap-2 items-center border-2 border-slate-800 px-4 py-2 rounded w-full sm:w-fit hover:bg-slate-800 transition-all"
     >
       <div className="font-medium">{alreadyJoined ? "Leave" : "Join"}</div>
     </button>

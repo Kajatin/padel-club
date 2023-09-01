@@ -40,7 +40,7 @@ export default function PayButton(props: {
 
         router.push(`/sessions/${session}`);
       }}
-      className="flex flex-row gap-2 items-center border-2 border-slate-800 px-4 py-2 rounded w-full sm:w-fit hover:bg-slate-800"
+      className="flex flex-row gap-2 items-center border-2 border-slate-800 px-4 py-2 rounded w-full sm:w-fit hover:bg-slate-800 transition-all"
     >
       <div className="font-medium">Pay</div>
       <div className="inline border border-slate-400 text-slate-400 rounded text-sm px-1 py-0.5">

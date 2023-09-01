@@ -19,7 +19,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body
         className={
           font.className +
-          " flex flex-col justify-center items-center w-screen my-10 p-2"
+          " flex flex-col justify-center items-center w-screen my-10 p-4 sm:p-2"
         }
       >
         {children}

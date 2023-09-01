@@ -5,7 +5,7 @@ export default function Address(props: { address: string }) {
 
   return (
     <div
-      className="cursor-pointer text-slate-300 hover:text-slate-400"
+      className="cursor-pointer text-slate-300 hover:text-slate-400 transition-all"
       onClick={() => {
         const encodedAddress = encodeURIComponent(address);
         window.open(
