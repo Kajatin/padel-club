@@ -12,11 +12,11 @@ export default function Actions(props: { userId: number }) {
   return (
     <div className="flex flex-col gap-2 mt-10">
       <h1 className="text-3xl text-red-400 font-medium">Delete account</h1>
-      <div className="text-slate-400">
+      <div className="text-slate-300">
         Revoke your membership from the Padel Club. This action removes you from
         all events too.
       </div>
-      <div className="text-slate-400 font-medium">
+      <div className="text-slate-300 font-medium">
         This action cannot be undone.
       </div>
       <div className="flex flex-row items-center gap-2 mt-2">
@@ -26,9 +26,7 @@ export default function Actions(props: { userId: number }) {
           onChange={(e) => setConfirmed(e.target.checked)}
           className="w-5 h-5 sm:w-4 sm:h-4 border border-slate-400 rounded text-red-400"
         />
-        <label className={confirmed ? "text-slate-300" : "text-slate-400"}>
-          I understand the consequences
-        </label>
+        <label className="text-slate-300">I understand the consequences</label>
       </div>
       <button
         onClick={() => {

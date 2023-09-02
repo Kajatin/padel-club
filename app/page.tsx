@@ -2,6 +2,7 @@ import Hero from "./hero";
 import Events from "./events";
 import Members from "./members";
 import FAQ from "./faq";
+import Footer from "./footer";
 
 export const revalidate = 0;
 export const dynamic = "force-dynamic";
@@ -14,6 +15,7 @@ export default function Home() {
       <Events />
       <Members />
       <FAQ />
+      <Footer />
     </div>
   );
 }

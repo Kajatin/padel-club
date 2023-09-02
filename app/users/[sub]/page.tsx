@@ -64,7 +64,7 @@ export default async function UserProfile({
           [session.id]
         );
 
-        return { ...session, participants, booked: su.paid };
+        return { ...session, participants, paid: su.paid };
       })
     );
 
@@ -136,6 +136,12 @@ export default async function UserProfile({
 
       <h1 className="text-3xl text-slate-400 font-medium mt-10">Upcoming</h1>
       <div className="flex flex-col divide-y-2 divide-slate-800">
+        {upcomingSessions.length === 0 && (
+          <div className="text-slate-300">
+            You don&apos;t have any upcoming sessions. 😢
+          </div>
+        )}
+
         {upcomingSessions.map((session: any) => {
           return (
             <div

@@ -25,7 +25,7 @@ async function MembersList() {
   );
 
   return (
-    <div className="flex flex-col sm:flex-row flex-wrap justify-start items-start gap-6 py-2 px-2 sm:px-0">
+    <div className="flex flex-col sm:flex-row flex-wrap justify-evenly items-start gap-6 py-2 px-2 sm:px-0">
       {members.map((member) => {
         return (
           <div
