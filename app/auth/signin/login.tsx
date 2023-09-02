@@ -6,7 +6,7 @@ export default function Login(props: { providers: any }) {
   const { providers } = props;
 
   return (
-    <div className="flex flex-col gap-10 max-w-md w-full items-center justify-center">
+    <div className="flex flex-col gap-10 max-w-xl w-full items-center justify-center">
       <div className="text-5xl text-yellow-400 font-bold">Padel Club</div>
       {Object.values(providers).map((provider: any) => (
         <button

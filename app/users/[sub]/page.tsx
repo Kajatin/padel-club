@@ -35,7 +35,7 @@ export default async function UserProfile({
 
   if ((session?.user as any).sub !== user.sub) {
     return (
-      <div className="flex flex-col gap-2 max-w-md w-full">
+      <div className="flex flex-col gap-2 max-w-xl w-full">
         <Navigation />
         <div className="text-lg mt-10">
           You don&apos;t have access to this page. ⛔️
@@ -85,7 +85,7 @@ export default async function UserProfile({
   );
 
   return (
-    <div className="flex flex-col gap-2 max-w-md w-full">
+    <div className="flex flex-col gap-2 max-w-xl w-full">
       <Navigation />
 
       <div className="flex flex-row justify-between items-center">
@@ -121,7 +121,7 @@ export default async function UserProfile({
       <div className="bg-yellow-900 rounded-lg mt-10 p-2">
         {numSessionsInPast > 0 ? (
           <div className="text-lg">
-            You&apos;ve been part of{" "}
+            You&apos;ve participated in{" "}
             <div className="inline-flex text-2xl px-1 text-yellow-400 font-medium animate-bounce">
               {numSessionsInPast}
             </div>{" "}
@@ -133,7 +133,7 @@ export default async function UserProfile({
         ) : (
           <div>
             <div className="text-lg mt-10">
-              You haven&apos;t been part of any sessions yet. 😢
+              You haven&apos;t participated in any sessions yet. 😢
             </div>
           </div>
         )}

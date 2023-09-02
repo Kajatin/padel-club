@@ -36,7 +36,7 @@ export default async function SessionJoin({
   const sessionInPast = moment(session.start).isBefore(moment());
 
   return (
-    <div className="flex flex-col gap-2 max-w-md w-full">
+    <div className="flex flex-col gap-2 max-w-xl w-full">
       <Navigation />
 
       <h1 className="text-3xl text-slate-400 font-medium">Pay for session</h1>

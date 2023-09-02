@@ -4,6 +4,7 @@ export default function MobilePay() {
       xmlns="http://www.w3.org/2000/svg"
       width="135"
       height="109"
+      className="w-24 h-24"
       viewBox="0 0 135 109"
     >
       <defs>

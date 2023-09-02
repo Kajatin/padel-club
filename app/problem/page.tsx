@@ -10,7 +10,7 @@ export default function Problem() {
   const [problem, setProblem] = useState("");
 
   return (
-    <div className="flex flex-col gap-2 max-w-md w-full">
+    <div className="flex flex-col gap-2 max-w-xl w-full">
       <Navigation />
 
       <h1 className="text-3xl text-slate-400 font-medium mb-4">
