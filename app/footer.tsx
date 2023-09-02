@@ -2,7 +2,7 @@ import Link from "next/link";
 
 export default function Footer() {
   return (
-    <div className="flex flex-row justify-between text-slate-400 border-t-2 border-slate-800 pt-3">
+    <div className="flex flex-col sm:flex-row gap-2 justify-between text-slate-400 border-t-2 border-slate-800 pt-3">
       <Link href="/problem" className="hover:underline">
         Report a problem
       </Link>
