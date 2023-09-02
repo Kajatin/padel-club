@@ -45,3 +45,7 @@ The project is containerized using Docker. You can build and run the project usi
 <p align="center">
   <img width="800" src="https://github.com/Kajatin/padel-club/assets/33018844/534d27b3-c47c-47be-80a5-8c136e94d7a4">
 </p>
+
+<p align="center">
+  <img width="800" src="https://github.com/Kajatin/padel-club/assets/33018844/ac1af016-3ffd-4724-a731-ceec1410629d">
+</p>
