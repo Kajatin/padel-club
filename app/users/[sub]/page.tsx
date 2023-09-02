@@ -138,7 +138,10 @@ export default async function UserProfile({
       <div className="flex flex-col divide-y-2 divide-slate-800">
         {upcomingSessions.map((session: any) => {
           return (
-            <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-2 sm:gap-4 py-4 sm:py-2">
+            <div
+              key={session.id}
+              className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-2 sm:gap-4 py-4 sm:py-2"
+            >
               <div className="flex flex-col gap-1">
                 <h2 className="text-xl text-slate-400 font-medium">
                   {session.title}
