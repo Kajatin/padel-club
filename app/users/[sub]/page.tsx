@@ -3,6 +3,7 @@ import Image from "next/image";
 import moment from "moment";
 import { getServerSession } from "next-auth/next";
 
+import Badge from "@/app/badge";
 import Actions from "./actions";
 import Address from "@/app/address";
 import { Participants } from "@/app/events";
@@ -57,7 +58,7 @@ export default async function UserProfile({
         );
 
         const participants = await t.any(
-          `SELECT u.name, u.avatar FROM sessions_users su
+          `SELECT u.name, u.avatar, u.created FROM sessions_users su
           INNER JOIN users u ON su.user = u.id
           WHERE su.session = $1
           ORDER BY su.created ASC`,
@@ -95,22 +96,26 @@ export default async function UserProfile({
           </div>
         </div>
 
-        {user.avatar ? (
-          <Image
-            width={96}
-            height={96}
-            className="h-24 w-24 rounded-full"
-            src={user.avatar}
-            alt={user.name}
-          />
-        ) : (
-          <div
-            className="flex w-24 h-24 rounded-full font-medium items-center justify-center"
-            style={{ backgroundColor: stringToColor(user.name) }}
-          >
-            {generateMonogram(user.name)}
-          </div>
-        )}
+        <div className="relative">
+          {user.avatar ? (
+            <Image
+              width={96}
+              height={96}
+              className="h-24 w-24 rounded-full"
+              src={user.avatar}
+              alt={user.name}
+            />
+          ) : (
+            <div
+              className="flex w-24 h-24 rounded-full font-medium items-center justify-center"
+              style={{ backgroundColor: stringToColor(user.name) }}
+            >
+              {generateMonogram(user.name)}
+            </div>
+          )}
+
+          <Badge created={user.created} />
+        </div>
       </div>
 
       <div className="bg-yellow-900 rounded-lg mt-10 p-2">
