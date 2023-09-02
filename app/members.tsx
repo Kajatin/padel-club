@@ -29,7 +29,10 @@ async function MembersList() {
     <div className="flex flex-col sm:flex-row flex-wrap justify-evenly items-start gap-6 py-2 px-2 sm:px-0">
       {members.map((member) => {
         return (
-          <div className="flex flex-row sm:flex-col items-center gap-6 sm:gap-2 hover:scale-105 transition-all">
+          <div
+            key={member.id}
+            className="flex flex-row sm:flex-col items-center gap-6 sm:gap-2 hover:scale-105 transition-all"
+          >
             <div className="relative">
               {member.avatar ? (
                 <Image
