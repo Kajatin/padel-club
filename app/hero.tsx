@@ -22,8 +22,12 @@ export default function Hero() {
   const sub = session?.user?.sub || "";
 
   return (
-    <div className="flex flex-col sm:flex-row gap-2 justify-between">
+    <div className="flex flex-col sm:flex-row gap-2 justify-between items-center">
       <div className="text-5xl text-yellow-400 font-bold">Padel Club</div>
+
+      <Link href="/merch" className="text-slate-400 font-medium transition-all">
+        <div className="hover:underline">MERCH</div>
+      </Link>
 
       {session === null ? (
         <Link
