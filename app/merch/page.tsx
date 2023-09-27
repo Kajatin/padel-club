@@ -1,22 +1,12 @@
 "use client";
 
 import Image from "next/image";
-import { useEffect, useState } from "react";
-import { getSession } from "next-auth/react";
+import { useState } from "react";
 import Navigation from "../navigation";
+import Link from "next/link";
 
 export default function Hero() {
-  const [session, setSession] = useState<any | null>(null);
-
   const [size, setSize] = useState("large");
-
-  useEffect(() => {
-    const fetchSession = async () => {
-      const session = await getSession();
-      setSession(session);
-    };
-    fetchSession();
-  }, []);
 
   return (
     <div className="flex flex-col gap-2 max-w-xl w-full">
@@ -25,7 +15,7 @@ export default function Hero() {
       <div className="flex flex-row justify-between items-center mb-10">
         <div className="flex flex-col gap-2">
           <div className="text-4xl text-yellow-400 font-bold">MERCH</div>
-          <div className="text-lg">Now available for purchase!</div>
+          <div className="text-lg">Official Padel Club merch!</div>
         </div>
       </div>
 
@@ -38,7 +28,7 @@ export default function Hero() {
           alt="Padel Club merch"
         />
 
-        <div className="flex flex-row font-medium items-baseline gap-2 mb-2">
+        <div className="flex flex-row font-medium items-baseline gap-2 mb-2 bg-slate-800 w-full justify-center px-4 py-2 rounded">
           <div className="text-xl">Padel Club Tee</div>
           <div className="text-slate-400">white</div>
         </div>
@@ -56,26 +46,15 @@ export default function Hero() {
           <option value="xlarge">X-Large</option>
         </select>
 
-        <button
-          onClick={() => {
-            fetch("/api/order", {
-              method: "POST",
-              body: JSON.stringify({
-                size: "small",
-              }),
-            }).then(async (res) => {
-              if (res.ok) {
-                // router.replace(`/`);
-              }
-            });
-          }}
+        <Link
+          href={`/merch/order?size=${size}`}
           className="flex flex-row gap-2 items-center border-2 border-slate-800 px-4 py-2 rounded w-full hover:bg-slate-800 transition-all"
         >
           <div className="font-medium">Purchase</div>
           <div className="inline border border-slate-400 text-slate-400 rounded text-sm px-1 py-0.5">
-            100 DKK
+            270 DKK
           </div>
-        </button>
+        </Link>
       </div>
     </div>
   );
