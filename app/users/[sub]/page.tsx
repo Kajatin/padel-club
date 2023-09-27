@@ -3,6 +3,7 @@ import Image from "next/image";
 import moment from "moment";
 import { getServerSession } from "next-auth/next";
 
+import Logout from "./logout";
 import Badge from "@/app/badge";
 import Actions from "./actions";
 import Address from "@/app/address";
@@ -88,12 +89,13 @@ export default async function UserProfile({
     <div className="flex flex-col gap-2 max-w-xl w-full">
       <Navigation />
 
-      <div className="flex flex-row justify-between items-center">
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center">
         <div className="flex flex-col gap-2">
           <div className="text-4xl text-yellow-400 font-bold">{user.name}</div>
           <div className="text-lg">
             Joined {moment(user.created).format("LL")}
           </div>
+          <Logout />
         </div>
 
         <div className="relative">
@@ -101,7 +103,7 @@ export default async function UserProfile({
             <Image
               width={96}
               height={96}
-              className="h-24 w-24 rounded-full"
+              className="h-24 w-24 rounded-full mt-2 sm:mt-0"
               src={user.avatar}
               alt={user.name}
             />
