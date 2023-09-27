@@ -33,7 +33,7 @@ The project is containerized using Docker. You can build and run the project usi
 * [ ] Ability to invite people to the club/session
 * [x] Merch page
 * [ ] Option to create games by anyone -> add host of the game, etc.
-* [ ] Badge should be based on amount of games played (not time since joined)
+* [x] Badge should be based on amount of games played (not time since joined)
 
 ## Screenshots
 

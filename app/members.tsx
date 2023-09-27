@@ -51,7 +51,8 @@ async function MembersList() {
                 </div>
               )}
 
-              <Badge created={member.created} />
+              {/* @ts-expect-error Server Component */}
+              <Badge user={member.id} />
             </div>
             <p className="text-lg">{member.name}</p>
           </div>

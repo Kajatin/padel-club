@@ -116,7 +116,8 @@ export default async function UserProfile({
             </div>
           )}
 
-          <Badge created={user.created} />
+          {/* @ts-expect-error Server Component */}
+          <Badge user={user.id} />
         </div>
       </div>
 

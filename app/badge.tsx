@@ -1,11 +1,15 @@
-export default function Badge(props: { created: string }) {
-  const created = new Date(props.created);
+import getDb from "@/helpers/getDb";
+const { db } = getDb();
 
-  const createdSince = Math.floor(
-    (Date.now() - created.getTime()) / (1000 * 60 * 60 * 24)
+export default async function Badge(props: { user: number }) {
+  const { user } = props;
+
+  const numberOfSessions = await db.one(
+    'SELECT COUNT(*) FROM sessions_users WHERE "user" = $1',
+    user
   );
 
-  if (createdSince <= 30) {
+  if (numberOfSessions.count <= 10) {
     return (
       <div className="absolute material-symbols-outlined -right-2 -bottom-1 text-green-400 bg-green-900 rounded-full p-1 opacity-90">
         eco
@@ -13,7 +17,7 @@ export default function Badge(props: { created: string }) {
     );
   }
 
-  if (createdSince <= 180) {
+  if (numberOfSessions.count <= 50) {
     return (
       <div className="absolute material-symbols-outlined -right-2 -bottom-1 text-blue-400 bg-blue-900 rounded-full p-1">
         sports_tennis
