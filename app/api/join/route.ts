@@ -16,8 +16,10 @@ export async function POST(request: Request) {
   }
 
   const res = await db.one(
-    `INSERT INTO sessions_users ("session", "user") VALUES ($1, $2) RETURNING *`,
-    [body.id, user.id]
+    `INSERT INTO sessions_users ("session", "user", tentative) VALUES ($1, $2, $3)
+     ON CONFLICT ("session", "user") DO UPDATE SET tentative = false
+     RETURNING *`,
+    [body.id, user.id, false]
   );
 
   return NextResponse.json(res);
