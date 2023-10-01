@@ -32,9 +32,11 @@ The project is containerized using Docker. You can build and run the project usi
 * [x] Personal page to see activity (sessions)
 * [x] Merch page
 * [x] Option to create games by anyone -> add host of the game, etc.
-* [ ] Ability to invite people to the club/session
+* [ ] Ability to invite people to the club
+* [x] Ability to invite people to a session
 * [x] Badge should be based on amount of games played (not time since joined)
-* [ ] Private session -> invitation only
+* [x] Private session -> invitation only
+* [ ] Send email update to participants when modifications are made to the session
 
 ## Screenshots
 

@@ -17,7 +17,7 @@ export async function PUT(request: Request) {
 
   const user = await db.oneOrNone(
     `SELECT * FROM users WHERE sub = $1`,
-    (session.user as any).sub
+    session.user.sub
   );
 
   if (!user) {
@@ -25,8 +25,8 @@ export async function PUT(request: Request) {
   }
 
   const newSession = await db.one(
-    `INSERT INTO sessions (title, start, duration, location, price, booked, host)
-      VALUES ($1, $2, $3, $4, $5, $6, $7)
+    `INSERT INTO sessions (title, start, duration, location, price, booked, private, host)
+      VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
       RETURNING *`,
     [
       body.title,
@@ -35,6 +35,7 @@ export async function PUT(request: Request) {
       body.location,
       body.price,
       body.booked,
+      body.private,
       user.id,
     ]
   );
@@ -44,8 +45,6 @@ export async function PUT(request: Request) {
     body.participants.map(async (participant: any) => {
       // Send email to participant
       // TODO: Send email to participant (https://www.kirandev.com/next-js-react-email-sending)
-
-      console.log("participant", participant);
 
       await db.none(
         `INSERT INTO sessions_users (session, "user")

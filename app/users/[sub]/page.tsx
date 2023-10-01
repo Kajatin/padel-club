@@ -7,7 +7,7 @@ import Logout from "./logout";
 import Badge from "@/app/badge";
 import Actions from "./actions";
 import Address from "@/app/address";
-import { Participants } from "@/app/events";
+import { Host, Participants } from "@/app/events";
 import { generateMonogram, stringToColor } from "@/helpers/utils";
 
 import Navigation from "../../navigation";
@@ -34,7 +34,7 @@ export default async function UserProfile({
     sub
   );
 
-  if ((session?.user as any).sub !== user.sub) {
+  if (session?.user.sub !== user.sub) {
     return (
       <div className="flex flex-col gap-2 max-w-xl w-full">
         <Navigation />
@@ -66,7 +66,13 @@ export default async function UserProfile({
           [session.id]
         );
 
-        return { ...session, participants, paid: su.paid };
+        const host = await t.oneOrNone(
+          `SELECT id, name, avatar FROM users
+          WHERE id = $1`,
+          [session.host]
+        );
+
+        return { ...session, participants, host, paid: su.paid };
       })
     );
 
@@ -174,6 +180,11 @@ export default async function UserProfile({
                   >
                     {session.booked ? "booked" : "scheduled"}
                   </p>
+                  {session.private && (
+                    <p className="inline bg-blue-400 text-blue-900 rounded text-sm px-1 py-0.5">
+                      private
+                    </p>
+                  )}
                   <div className="inline border border-slate-400 text-slate-400 rounded text-sm px-1 py-0.5">
                     {session.price} DKK
                   </div>
@@ -185,6 +196,8 @@ export default async function UserProfile({
                 <div>{moment(session.start).format("LLLL")}</div>
 
                 <Address address={session.location} />
+
+                {session.host && <Host host={session.host} />}
               </div>
             </div>
           );

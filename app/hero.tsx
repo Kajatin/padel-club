@@ -29,7 +29,7 @@ export default function Hero() {
           href="/api/auth/signin?callbackUrl=%2F"
           className="flex flex-row w-fit gap-1 items-center text-slate-400 font-medium transition-all"
         >
-          <div className="hover:underline">Sign in</div>
+          <div className="hover:text-slate-300">Sign in</div>
         </Link>
       ) : (
         <Link href={`/users/${sub}`} className="hover:scale-105 transition-all">
