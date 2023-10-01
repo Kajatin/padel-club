@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 
-import { SessionForm } from "../new/page";
+import SessionForm from "../new/form";
 
 export default function EditSession(props: { session: any }) {
   const { session } = props;

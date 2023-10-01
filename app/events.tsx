@@ -169,7 +169,10 @@ export function Participants({ participants }: { participants: any }) {
     >
       {participants.map((participant: any) => {
         return (
-          <div className={participant.tentative ? "grayscale opacity-70" : ""}>
+          <div
+            key={participant.name}
+            className={participant.tentative ? "grayscale opacity-70" : ""}
+          >
             {participant.avatar ? (
               <Image
                 width={32}
