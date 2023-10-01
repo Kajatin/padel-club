@@ -30,10 +30,13 @@ The project is containerized using Docker. You can build and run the project usi
 * [ ] Store game results for more serious sessions
 * [ ] Filter expired sessions -> show only for people that need to pay or max 2-3 expired sessions
 * [x] Personal page to see activity (sessions)
-* [ ] Ability to invite people to the club/session
 * [x] Merch page
-* [ ] Option to create games by anyone -> add host of the game, etc.
+* [x] Option to create games by anyone -> add host of the game, etc.
+* [ ] Ability to invite people to the club
+* [x] Ability to invite people to a session
 * [x] Badge should be based on amount of games played (not time since joined)
+* [x] Private session -> invitation only
+* [ ] Send email update to participants when modifications are made to the session
 
 ## Screenshots
 

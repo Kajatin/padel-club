@@ -17,7 +17,7 @@ export async function POST(request: Request) {
 
   const user = await db.oneOrNone(
     `SELECT * FROM users WHERE sub = $1`,
-    (session.user as any).sub
+    session.user.sub
   );
 
   if (!user) {

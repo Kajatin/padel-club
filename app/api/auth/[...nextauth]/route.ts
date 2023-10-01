@@ -47,7 +47,13 @@ export const authOptions: AuthOptions = {
     },
     async session({ session, user, token }) {
       if (session.user) {
-        (session.user as any).sub = token.sub;
+        session.user.sub = token.sub;
+        const dbUser = await db.one(
+          `SELECT id FROM users WHERE sub = $1`,
+          token.sub
+        );
+        session.user.id = dbUser.id;
+
       }
       return session;
     },

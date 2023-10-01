@@ -21,7 +21,7 @@ export async function DELETE(request: Request) {
     return NextResponse.json({ error: "User not found" }, { status: 404 });
   }
 
-  if (user.sub !== (session.user as any).sub) {
+  if (user.sub !== session.user.sub) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 

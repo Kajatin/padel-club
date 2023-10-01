@@ -1,11 +1,16 @@
+import Link from "next/link";
 import Image from "next/image";
 
 import moment from "moment";
 
 import PayButton from "./pay";
+import EditButton from "./edit";
 import JoinButton from "./join";
 import Address from "./address";
 import { generateMonogram, stringToColor } from "@/helpers/utils";
+
+import { Session, getServerSession } from "next-auth";
+import { authOptions } from "./api/auth/[...nextauth]/route";
 
 import getDb from "@/helpers/getDb";
 const { db } = getDb();
@@ -17,7 +22,12 @@ export const fetchCache = "default-no-store";
 export default function Events() {
   return (
     <div className="flex flex-col gap-2">
-      <h1 className="text-3xl text-slate-400 font-medium">Sessions</h1>
+      <div className="flex flex-row justify-between items-baseline">
+        <h1 className="text-3xl text-slate-400 font-medium">Sessions</h1>
+        <Link href="/sessions/new">
+          <div className="text-slate-400 hover:text-slate-300">Create</div>
+        </Link>
+      </div>
       {/* @ts-expect-error Server Component */}
       <Sessions />
     </div>
@@ -25,20 +35,38 @@ export default function Events() {
 }
 
 async function Sessions() {
+  const userSession = await getServerSession(authOptions);
+
   const sessions = await db.task(async (t) => {
-    const sessions = await t.any("SELECT * FROM sessions ORDER BY start DESC");
+    const sessions = await t.any(
+      `SELECT * FROM sessions
+      WHERE private = false OR (
+        host = $1 OR id IN (
+          SELECT session FROM sessions_users
+          WHERE "user" = $1
+        )
+      )
+      ORDER BY start DESC`,
+      [userSession?.user?.id]
+    );
 
     const sessionsWithParticipants = await Promise.all(
       sessions.map(async (session: any) => {
         const participants = await t.any(
-          `SELECT u.name, u.avatar, u.sub, su.paid FROM sessions_users su
+          `SELECT u.name, u.avatar, u.sub, su.paid, su.tentative FROM sessions_users su
           INNER JOIN users u ON su.user = u.id
           WHERE su.session = $1
           ORDER BY su.created ASC`,
           [session.id]
         );
 
-        return { ...session, participants };
+        const host = await t.oneOrNone(
+          `SELECT id, name, avatar FROM users
+          WHERE id = $1`,
+          [session.host]
+        );
+
+        return { ...session, participants, host };
       })
     );
 
@@ -48,13 +76,19 @@ async function Sessions() {
   return (
     <div className="flex flex-col divide-y-2 divide-slate-800">
       {sessions.map((session) => (
-        <Session key={session.id} session={session} />
+        <Session key={session.id} session={session} userSession={userSession} />
       ))}
     </div>
   );
 }
 
-function Session({ session }: { session: any }) {
+function Session({
+  session,
+  userSession,
+}: {
+  session: any;
+  userSession: Session | null;
+}) {
   const sessionInPast = moment(session.start).isBefore(moment());
 
   return (
@@ -83,6 +117,11 @@ function Session({ session }: { session: any }) {
               {session.booked ? "booked" : "scheduled"}
             </p>
           )}
+          {session.private && (
+            <p className="inline bg-blue-400 text-blue-900 rounded text-sm px-1 py-0.5">
+              private
+            </p>
+          )}
           <div className="inline border border-slate-400 text-slate-400 rounded text-sm px-1 py-0.5">
             {session.price} DKK
           </div>
@@ -94,10 +133,20 @@ function Session({ session }: { session: any }) {
         <div>{moment(session.start).format("LLLL")}</div>
 
         {!sessionInPast && <Address address={session.location} />}
+
+        {session.host && <Host host={session.host} />}
       </div>
 
       {!sessionInPast && (
-        <JoinButton session={session.id} participants={session.participants} />
+        <div className="flex flex-row gap-2">
+          {userSession?.user.id === session.host.id && (
+            <EditButton session={session.id} />
+          )}
+          <JoinButton
+            session={session.id}
+            participants={session.participants}
+          />
+        </div>
       )}
       {sessionInPast && (
         <PayButton
@@ -120,7 +169,10 @@ export function Participants({ participants }: { participants: any }) {
     >
       {participants.map((participant: any) => {
         return (
-          <>
+          <div
+            key={participant.name}
+            className={participant.tentative ? "grayscale opacity-70" : ""}
+          >
             {participant.avatar ? (
               <Image
                 width={32}
@@ -137,9 +189,35 @@ export function Participants({ participants }: { participants: any }) {
                 {generateMonogram(participant.name)}
               </div>
             )}
-          </>
+          </div>
         );
       })}
+    </div>
+  );
+}
+
+export function Host(props: { host: any }) {
+  const { host } = props;
+
+  return (
+    <div className="flex flex-row gap-2 items-center text-slate-300">
+      <div>Hosted by {host.name}</div>
+      {host.avatar ? (
+        <Image
+          width={32}
+          height={32}
+          className="h-8 w-8 rounded-full"
+          src={host.avatar}
+          alt={host.name}
+        />
+      ) : (
+        <div
+          className="flex w-8 h-8 rounded-full font-medium items-center justify-center"
+          style={{ backgroundColor: stringToColor(host.name) }}
+        >
+          {generateMonogram(host.name)}
+        </div>
+      )}
     </div>
   );
 }
