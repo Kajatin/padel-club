@@ -8,6 +8,7 @@ import Badge from "@/app/badge";
 import Actions from "./actions";
 import Address from "@/app/address";
 import { Host, Participants } from "@/app/events";
+import LocalTime from "@/app/components/localtime";
 import { generateMonogram, stringToColor } from "@/helpers/utils";
 
 import Navigation from "../../navigation";
@@ -193,7 +194,7 @@ export default async function UserProfile({
                   </p>
                 </div>
 
-                <div>{moment(session.start).local().format("LLLL")}</div>
+                <LocalTime time={session.start} />
 
                 <Address address={session.location} />
 

@@ -7,6 +7,7 @@ import PayButton from "./pay";
 import EditButton from "./edit";
 import JoinButton from "./join";
 import Address from "./address";
+import LocalTime from "./components/localtime";
 import { generateMonogram, stringToColor } from "@/helpers/utils";
 
 import { Session, getServerSession } from "next-auth";
@@ -130,7 +131,7 @@ function Session({
           </p>
         </div>
 
-        <div>{moment(session.start).local().format("LLLL")}</div>
+        <LocalTime time={session.start} />
 
         {!sessionInPast && <Address address={session.location} />}
 
