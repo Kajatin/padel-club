@@ -1,9 +1,8 @@
-import moment from "moment";
-
 import Address from "@/app/address";
 import Interaction from "./interaction";
 import Navigation from "@/app/navigation";
 import { Host, Participants } from "@/app/events";
+import LocalTime from "@/app/components/localtime";
 
 export const revalidate = 0;
 export const dynamic = "force-dynamic";
@@ -40,7 +39,7 @@ export default function PaySession(props: { id: string; session: any }) {
           </p>
         </div>
 
-        <div>{moment(session.start).local().format("LLLL")}</div>
+        <LocalTime time={session.start} />
 
         <Address address={session.location} />
 
