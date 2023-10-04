@@ -40,7 +40,7 @@ export default function PaySession(props: { id: string; session: any }) {
           </p>
         </div>
 
-        <div>{moment(session.start).format("LLLL")}</div>
+        <div>{moment(session.start).local().format("LLLL")}</div>
 
         <Address address={session.location} />
 
