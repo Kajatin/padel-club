@@ -95,7 +95,7 @@ function Session({
   return (
     <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-2 sm:gap-4 py-4 sm:py-2">
       <div
-        className={"flex flex-col gap-1 " + (sessionInPast ? "opacity-70" : "")}
+        className={"flex flex-1 flex-col gap-1 " + (sessionInPast ? "opacity-70" : "")}
       >
         <h2 className="text-xl text-slate-400 font-medium">{session.title}</h2>
 
@@ -131,7 +131,7 @@ function Session({
           </p>
         </div>
 
-        <LocalTime time={session.start} />
+        <LocalTime time={session.start} is_future_event={!sessionInPast} duration={session.duration} />
 
         {!sessionInPast && <Address address={session.location} />}
 
