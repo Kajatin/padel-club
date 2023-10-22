@@ -16,7 +16,7 @@ async function handleDownload(event: any) {
 
   const filename = 'padel.ics'
   const file = await new Promise((resolve, reject) => {
-    createEvent(event, (error, value) => {
+    createEvent(details, (error, value) => {
       if (error) {
         reject(error)
       }
