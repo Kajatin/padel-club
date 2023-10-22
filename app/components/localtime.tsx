@@ -1,7 +1,7 @@
 "use client";
 
 import moment from "moment";
-import { createEvent } from 'ics';
+import { createEvent, EventAttributes } from 'ics';
 
 async function handleDownload(event: any) {
   const moment_start = moment(event.start)
@@ -12,7 +12,7 @@ async function handleDownload(event: any) {
     title: "Padel Club",
     start: moment_start.format('YYYY-M-D-H-m').split("-").map(Number),
     end: moment_end.format("YYYY-M-D-H-m").split("-").map(Number)
-  }
+  } as EventAttributes
 
   const filename = 'padel.ics'
   const file = await new Promise((resolve, reject) => {
