@@ -39,7 +39,7 @@ export default function PaySession(props: { id: string; session: any }) {
           </p>
         </div>
 
-        <LocalTime time={session.start} />
+        <LocalTime event={session} />
 
         <Address address={session.location} />
 

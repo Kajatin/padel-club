@@ -131,7 +131,7 @@ function Session({
           </p>
         </div>
 
-        <LocalTime time={session.start} is_future_event={!sessionInPast} duration={session.duration} />
+        <LocalTime event={session}/>
 
         {!sessionInPast && <Address address={session.location} />}
 
