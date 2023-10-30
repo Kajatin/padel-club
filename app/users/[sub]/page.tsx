@@ -194,7 +194,7 @@ export default async function UserProfile({
                   </p>
                 </div>
 
-                <LocalTime time={session.start} />
+                <LocalTime event={session} />
 
                 <Address address={session.location} />
 
