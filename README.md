@@ -28,7 +28,7 @@ The project is containerized using Docker. You can build and run the project usi
 * [x] Ability to leave the club (remove from members)
 * [x] Page for adding new sessions
 * [ ] Store game results for more serious sessions
-* [ ] Filter expired sessions -> show only for people that need to pay or max 2-3 expired sessions
+* [x] Filter expired sessions -> show only for people that need to pay or max 2-3 expired sessions
 * [x] Personal page to see activity (sessions)
 * [x] Merch page
 * [x] Option to create games by anyone -> add host of the game, etc.

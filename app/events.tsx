@@ -41,10 +41,20 @@ async function Sessions() {
   const sessions = await db.task(async (t) => {
     const sessions = await t.any(
       `SELECT * FROM sessions
-      WHERE private = false OR (
-        host = $1 OR id IN (
+      WHERE (
+        private = false
+        OR (
+          host = $1
+          OR id IN (
+            SELECT session FROM sessions_users
+            WHERE "user" = $1
+          )
+        )
+      ) AND (
+        start > NOW() - interval '1 month'
+        OR id IN (
           SELECT session FROM sessions_users
-          WHERE "user" = $1
+          WHERE "user" = $1 AND paid = false
         )
       )
       ORDER BY start DESC`,
