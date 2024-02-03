@@ -3,6 +3,7 @@
 # custom
 pb_data
 pocketbase
+sql-backup
 
 # dependencies
 /node_modules
